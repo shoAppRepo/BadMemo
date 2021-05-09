@@ -19,6 +19,18 @@ export default {
           this.errors = errors.response.data.errors
           console.log(errors);
         })
+    },
+    logout(){
+      axios
+        .post('/api/logout')
+        .then((response) => {
+          this.$toast.show('Logged out successfully');
+          this.$router.replace('/original-login');
+        })
+        .catch((error) => {
+          this.$toast.error('Logout failed');
+          console.log(error);
+        });
     }
 	},
 }

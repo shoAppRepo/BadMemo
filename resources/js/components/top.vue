@@ -25,7 +25,10 @@
 </template>
 
 <script>
+import auth_method from '../mixin/auth_method.vue';
+
 export default {
+  mixins:[auth_method],
   created(){
     this.setTokenInHeader();
     this.storeAuthInfo();
@@ -34,7 +37,8 @@ export default {
     setTokenInHeader(){
       const token = localStorage.getItem('token');
 
-      window.axios.defaults.headers.common['Authentication'] = `Bearer ${token}`
+      //ログイン時に作成したtokenをheaderに埋め込むことで、sanctumの認証をパスできる
+      window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     },
     storeAuthInfo(){
       axios
@@ -48,18 +52,7 @@ export default {
           console.log(error);
         });
     },
-    logout(){
-      axios
-        .post('/api/logout')
-        .then((response) => {
-          this.$toast.show('Logged out successfully');
-          this.$router.replace('/original-login');
-        })
-        .catch((error) => {
-          this.$toast.error('Logout failed');
-          console.log(error);
-        });
-    }
+
   },
 }
 </script>
