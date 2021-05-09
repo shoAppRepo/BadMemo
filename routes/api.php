@@ -23,12 +23,14 @@ use App\Http\Controllers\AuthController;
 //認証系
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
 
 
 /**
  * protected routes
  */
+//auth:webじゃないとAuth::logoutが使えない？
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:web');
+
 Route::group(['middleware' => ['auth:sanctum']], function (){
   Route::get('auth/info', [AuthController::class, 'info']);
 });
