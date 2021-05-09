@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthController extends Controller
 {
+  use AuthenticatesUsers;
+  
   public function register(Request $request)
   {
     $request->validate([
@@ -52,7 +54,9 @@ class AuthController extends Controller
 
   public function logout(Request $request)
   {
-    // $request->user()->currentAccessToken()->delete();
+    //全トークンの削除
+    \Auth::user()->tokens()->delete();
+
     \Auth::logout();
     return response()->json(['msg' => 'Logout Successfull']);
   }
