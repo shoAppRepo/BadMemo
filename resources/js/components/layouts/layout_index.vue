@@ -1,6 +1,14 @@
 <template>
   <div class="container text-center">
     <div 
+      v-if="!checkIfExist"
+      class="mt-4"
+    >
+      <h5>データがありません</h5>
+    </div>
+
+    <div 
+      v-else
       v-for="(item, index) in items"
       class="row mt-4 mx-auto"
     >
@@ -83,6 +91,15 @@ export default {
   created(){
     this.init();
   },
+  computed:{
+    checkIfExist(){
+      if(this.items.length > 0){
+        return true;
+      }
+
+      return false;
+    },
+  },
   methods:{
     init(){
       axios
@@ -124,21 +141,23 @@ export default {
       this.column_info.forEach( function(a_column_info) {
         new_empty_item[a_column_info.column_name] = null;
       });
-      const new_index = this.items.length; 
+      
       // 新規追加のフラグを追加
       const new_empty_item_with_new_flag = this.addNewFlag(new_empty_item);
-      this.$set(this.items, new_index, new_empty_item_with_new_flag);
+      this.items.push(new_empty_item_with_new_flag);
     },
     deleteItem(delete_item, delete_item_index){
       if(!this.isNew(delete_item)){
         this.delete_items.push(delete_item);
       }
-      this.$delete(this.items, delete_item_index);
+      // this.$delete(this.items, delete_item_index);
+      this.items.splice(delete_item_index, 1);
     },
     changeValue(change_item){
       this.$set(this.items, this.item_index, change_item);
       this.closeModal();
     },
+
     /**
      * モーダル系
      */
