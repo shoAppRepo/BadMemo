@@ -25,12 +25,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('auth/info', [AuthController::class, 'info']);
 
 /**
  * protected routes
  */
-
+Route::group(['middleware' => ['auth:sanctum']], function (){
+  Route::get('auth/info', [AuthController::class, 'info']);
+});
 
 Route::group(['prefix' => 'tasks'], function(): void {
   Route::get('index', [TaskController::class, 'index']);
