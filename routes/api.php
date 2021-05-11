@@ -33,9 +33,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:web'
 
 Route::group(['middleware' => ['auth:sanctum']], function (){
   Route::get('auth/info', [AuthController::class, 'info']);
+  Route::group(['prefix' => 'tasks'], function(): void {
+    Route::get('index', [TaskController::class, 'index']);
+    Route::post('update', [TaskController::class, 'update']);
+
+    Route::get('search', [TaskController::class, 'search']);
+    
+  });
 });
 
-Route::group(['prefix' => 'tasks'], function(): void {
-  Route::get('index', [TaskController::class, 'index']);
-  Route::post('update', [TaskController::class, 'update']);
-});

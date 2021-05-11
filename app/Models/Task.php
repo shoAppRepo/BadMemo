@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class Task extends ApiModel
 {
   use HasFactory;
 
@@ -15,7 +15,7 @@ class Task extends Model
   protected $table = 'tasks';
 
   //更新できるカラム
-  protected $fillable = ['title', 'content', 'how_to_improve', 'tag', 'status'];
+  protected $fillable = ['user_id', 'title', 'content', 'how_to_improve', 'tag', 'status'];
 
   /**
    * 主キー
@@ -26,19 +26,29 @@ class Task extends Model
   public $incrementing = true;
 
   protected static $column_info = [
-    ['column_name' => 'task_id'],
-    ['column_name' => 'title'],
-    ['column_name' => 'content'],
-    ['column_name' => 'how_to_improve'],
-    ['column_name' => 'tag'],
-    ['column_name' => 'status'],
+    ['column' => 'task_id',
+      'column_name' => 'タスクID',
+    ],
+    ['column' => 'user_id',
+      'column_name' => 'ユーザID',
+    ],
+    ['column' => 'title',
+      'column_name' => 'タイトル',
+      'search' => true,
+    ],
+    ['column' => 'content',
+      'column_name' => '本文',
+    ],
+    ['column' => 'how_to_improve',
+      'column_name' => '改善案'
+    ],
+    ['column' => 'tag',
+      'column_name' => 'タグ',
+      'search' => true,
+    ],
+    ['column' => 'status',
+      'column_name' => 'ステータス',
+      'search' => true,
+    ],
   ];
-
-  /**
-   * $column_infoの取得
-   */
-  protected static function getColumnInfo()
-  {
-    return static::$column_info;
-  } 
 }

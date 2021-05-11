@@ -11,10 +11,12 @@ class TaskController extends Controller
   {
     $all_tasks = Task::orderBy('task_id')->get();
     $column_info = Task::getColumnInfo();
+    $format = Task::makeFormat();
 
     $data = [
       'all_items' => $all_tasks,
       'column_info' => $column_info,
+      'format' => $format,
     ];
 
     return $data;
@@ -38,7 +40,7 @@ class TaskController extends Controller
     if(count($new_items) > 0){
       foreach($new_items as $new_item){
         $task_model = new Task();
-
+        
         $task_model->create($new_item);
       }
     }
@@ -53,5 +55,10 @@ class TaskController extends Controller
     }
 
     return $this->index();
+  }
+
+  public function search(Request $request)
+  {
+    dd($request->all());
   }
 }

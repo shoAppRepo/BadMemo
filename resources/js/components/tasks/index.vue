@@ -2,6 +2,7 @@
   <layout_index 
     :init_url="init_url"
     :submit_url="submit_url"
+    :search_url="search_url"
   />
 </template>
 
@@ -21,6 +22,9 @@ export default {
     },
     submit_url() {
       return '/api/tasks/update';
+    },
+    submit_url() {
+      return '/api/tasks/search';
     },
   },
 }

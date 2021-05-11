@@ -44,9 +44,8 @@ export default {
       axios
         .get('/api/auth/info')
         .then((response) => {
-          console.log(response);
           localStorage.setItem('user_name', response.data.user_name);
-          localStorage.setItem('user_id', response.data.user_id);
+          localStorage.setItem('user_id', Number(response.data.user_id));
         })
         .catch((error) => {
           console.log(error);
